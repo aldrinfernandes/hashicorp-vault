@@ -257,11 +257,12 @@ server.ha.raft.enabled=true : is used to enable [raft storage](https://developer
    Vault-1 is now unsealed
 4. Raft join vault-2 to vault-0 and unseal it.
    ```
-   kubectl exec -ti -n vault vault-2 -- vault operator raft join http://vault-0.vault.vault-internal:8200
+   kubectl exec -ti -n vault vault-2 -- sh
+   vault operator raft join -address=https://vault-2.vault-internal:8200 -leader-ca-cert="$(cat /vault/userconfig/vault-server-tls/vault.ca)" -leader-client-cert="$(cat /vault/userconfig/vault-server-tls/vault.crt)" -leader-client-key="$(cat /vault/userconfig/vault-server-tls/vault.key)" https://vault-0.vault.vault-internal:8200
    ```
    if the above command fails try the below command
    ```
-   kubectl exec -ti -n vault vault-2 -- vault operator raft join http://vault-0.vault-internal:8200
+   vault operator raft join -address=https://vault-2.vault-internal:8200 -leader-ca-cert="$(cat /vault/userconfig/vault-server-tls/vault.ca)" -leader-client-cert="$(cat /vault/userconfig/vault-server-tls/vault.crt)" -leader-client-key="$(cat /vault/userconfig/vault-server-tls/vault.key)" https://vault-0.vault-internal:8200
    ```
    Unseal vault-2 similar to step-2 for vault-0
    ```
@@ -269,24 +270,9 @@ server.ha.raft.enabled=true : is used to enable [raft storage](https://developer
    kubectl exec -ti -n vault vault-2 -- vault operator unseal KEY_2
    kubectl exec -ti -n vault vault-2 -- vault operator unseal KEY_3
    ```
-   Vault-1 is now unsealed
-
-   Raft join vault-1 to vault-0 and unseal it
-   ```
-   kubectl exec -ti -n vault vault-1 -- vault operator raft join http://vault-0.vault.vault-internal:8200
-   ```
-   if the above command fails try the below command
-   ```
-   kubectl exec -ti -n vault vault-1 -- vault operator raft join http://vault-0.vault-internal:8200
-   ```
-   Unseal vault-1 similar to step-2 for vault-0
-   ```
-   kubectl exec -ti -n vault vault-1 -- vault operator unseal KEY_1
-   kubectl exec -ti -n vault vault-1 -- vault operator unseal KEY_2
-   kubectl exec -ti -n vault vault-1 -- vault operator unseal KEY_3
-   ```
-   Vault-1 is now unsealed
+   Vault-2 is now unsealed
 
 ## Reference
 1. [Installing Vault on Kubernetes](https://developer.hashicorp.com/vault/tutorials/kubernetes/vault-secrets-operator)
 2. [Raft Storage](https://developer.hashicorp.com/vault/docs/configuration/storage/raft)
+3. [Vault installation to minikube via Helm with TLS enabled](https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-tls)
