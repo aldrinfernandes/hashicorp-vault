@@ -15,7 +15,7 @@ If you don't have helm install follow the [Helm docs](https://helm.sh/docs/intro
 helm repo update
 helm search repo hashicorp/vault
 ```
-NOTE: At the time of installation th vaul helm chart version was 0.23.0 and vault version was 1.12.1
+NOTE: At the time of installation, Vault helm chart version was 0.23.0 and Vault version was 1.12.1
 
 ## Step 2: Installing Vault on cluster
 ### Without TLS
@@ -26,7 +26,7 @@ helm install vault hashicorp/vault -n vault --create-namespace --version=0.23.0 
 server.ha.raft.enabled=true : is used to enable [raft storage](https://developer.hashicorp.com/vault/docs/configuration/storage/raft) 
 
 ### With TLS
-1. Generate certificate ssl_generate_self_signed.sh
+1. Generate certificate [ssl_generate_self_signed.sh](https://github.com/aldrinfernandes/hashicorp-vault/blob/main/setup/kubernetes/vault-tls/tls/ssl_generate_self_signed.sh)
 2. Installing Vault by overriding defaults.<br>
    ```
    helm install -n vault vault -n vault --create-namespace hashicorp/vault -f setup/kubernetes/vault-tls/helm-overrides/vault-values.yaml.yaml
@@ -40,6 +40,7 @@ server.ha.raft.enabled=true : is used to enable [raft storage](https://developer
    kubectl exec -ti -n vault vault-0 -- vault operator init
    ```
    Output:
+   ```
     Unseal Key 1: KEY_1
     Unseal Key 2: KEY_2
     Unseal Key 3: KEY_3
@@ -58,6 +59,7 @@ server.ha.raft.enabled=true : is used to enable [raft storage](https://developer
 
     It is possible to generate new unseal keys, provided you have a quorum of
     existing unseal keys shares. See "vault operator rekey" for more information.
+    ```
 2. Unseal vault-0, pod, we need to provide any 3 of the 5 key from previous step to unseal vault
    ```
     kubectl exec -ti -n vault vault-0 -- vault operator unseal KEY_1
@@ -140,22 +142,6 @@ server.ha.raft.enabled=true : is used to enable [raft storage](https://developer
    kubectl exec -ti -n vault vault-2 -- vault operator unseal KEY_2
    kubectl exec -ti -n vault vault-2 -- vault operator unseal KEY_3
    ```
-   Vault-1 is now unsealed
-
-   Raft join vault-1 to vault-0 and unseal it
-   ```
-   kubectl exec -ti -n vault vault-1 -- vault operator raft join http://vault-0.vault.vault-internal:8200
-   ```
-   if the above command fails try the below command
-   ```
-   kubectl exec -ti -n vault vault-1 -- vault operator raft join http://vault-0.vault-internal:8200
-   ```
-   Unseal vault-1 similar to step-2 for vault-0
-   ```
-   kubectl exec -ti -n vault vault-1 -- vault operator unseal KEY_1
-   kubectl exec -ti -n vault vault-1 -- vault operator unseal KEY_2
-   kubectl exec -ti -n vault vault-1 -- vault operator unseal KEY_3
-   ```
    Vault-2 is now unsealed. Validate the same using vault-0
    ```
     kubectl exec -ti -n vault vault-0 -- vault operator raft list-peers
@@ -167,6 +153,7 @@ server.ha.raft.enabled=true : is used to enable [raft storage](https://developer
    kubectl exec -ti -n vault vault-0 -- vault operator init
    ```
    Output:
+   ```
     Unseal Key 1: KEY_1
     Unseal Key 2: KEY_2
     Unseal Key 3: KEY_3
@@ -185,6 +172,7 @@ server.ha.raft.enabled=true : is used to enable [raft storage](https://developer
 
     It is possible to generate new unseal keys, provided you have a quorum of
     existing unseal keys shares. See "vault operator rekey" for more information.
+    ```
 2. Unseal vault-0, pod, we need to provide any 3 of the 5 key from previous step to unseal vault
    ```
     kubectl exec -ti -n vault vault-0 -- vault operator unseal KEY_1
