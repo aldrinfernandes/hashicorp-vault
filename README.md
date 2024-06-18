@@ -10,6 +10,7 @@
 3. [Retrieve secrets from Vault.](https://github.com/aldrinfernandes/hashicorp-vault/blob/main/setup/kubernetes/configure.md)
 
 ## Current Setup
+- **kubernetes**: v1.26
 - **Kubectl**: v1.27
 - **Helm**: v3.13.1
 - **Helm Chart**: v0.23.0
