@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basic-secret
+  labels:
+    app: basic-secret
+spec:
+  selector:
+    matchLabels:
+      app: basic-secret
+  template:
+    metadata:
+      labels:
+        app: basic-secret
+    spec:
+      serviceAccountName: dev-user
+      containers:
+        - name: app
+          image: jweissig/app:0.0.1
+          # Add secrets as environment variables
+          env:
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: username
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: password
+          # Mount them as volume mounts
+          volumeMounts:
+            - name: config
+              # This will be rotated if secrets are changed in Vault
+              mountPath: "/etc/my-app"
+              readOnly: true
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
+      volumes:
+        - name: config
+          secret:
+            secretName: dev-secret-kv

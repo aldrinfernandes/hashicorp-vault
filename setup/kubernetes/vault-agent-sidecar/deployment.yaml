@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basic-secret
+  labels:
+    app: basic-secret
+spec:
+  selector:
+    matchLabels:
+      app: basic-secret
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "uppdate"
+        vault.hashicorp.com/role: "dev"
+        vault.hashicorp.com/agent-inject-secret-database-config.txt: "kvv2/data/dev"
+        vault.hashicorp.com/agent-inject-template-database-config.txt: |
+          {{- with secret "kvv2/data/dev" -}}
+          {
+            "username" : "{{ .Data.username }}",
+            "password" : "{{ .Data.password }}"
+          }
+          {{- end }}
+      labels:
+        app: basic-secret
+    spec:
+      serviceAccountName: dev-user
+      containers:
+        - name: app
+          image: jweissig/app:0.0.1
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
