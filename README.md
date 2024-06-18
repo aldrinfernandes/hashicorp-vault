@@ -12,10 +12,8 @@
 ## Current Setup
 - **Kubectl**: v1.27
 - **Helm**: v3.13.1
-
-
-## Change log
-1. Initial setup with Rancher v2.7.7 and Kubernetes version 1.26
+- **Helm Chart**: v0.23.0
+- **Vault**:  1.12.1
 
 ## Support
 If you facing any issue when following any step please reach out to (Aldrin Fernandes)[aldrin.fernande@tigeranalytics.com]. 
