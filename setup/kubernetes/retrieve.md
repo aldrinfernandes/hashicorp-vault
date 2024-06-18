@@ -8,6 +8,8 @@
 
 The vault operator id deployed in it's own namespace other than the one in which vault is deployed and the other where the application is deployed. This approach is similar to how we have secrets in Kubernetes.
 
+![Architecture Image](https://github.com/aldrinfernandes/hashicorp-vault/blob/main/assets/assets.png)
+
 1. Install Operator using Helm in a new namespace vault-secrets-operator-system.
     ```
     helm install vault-secrets-operator hashicorp/vault-secrets-operator -n vault-secrets-operator-system --create-namespace --values setup/kubernetes/vault-operator/vault-operator-values.yaml
