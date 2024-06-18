@@ -59,13 +59,14 @@ Injecting secrets into Kubernetes pods via Vault Agent containers, this is the e
     ```
     kubectl apply -f setup/kubernetes/vault-agent-sidecar/deployment.yaml -n dev
     ```
+    **Note: Need to add the annotations vault.hashicorp.com**
 3. Exec into the pod and check location '/vault/secrets/database-config.txt' to validate the secrets
     ```
     kubectl exec \
       $(kubectl get pod -l app=basic-secret -o jsonpath="{.items[0].metadata.name}") \
       -c app -- cat /vault/secrets/database-config.txt
     ```
-    **Note: Need to add the annotations vault.hashicorp.com**
+    
 
 ## References
 1. [The Vault Secrets Operator on Kubernetes.](https://developer.hashicorp.com/vault/tutorials/kubernetes/vault-secrets-operator)
