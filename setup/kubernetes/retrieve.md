@@ -12,7 +12,7 @@ The vault operator id deployed in it's own namespace other than the one in which
     ```
     helm install vault-secrets-operator hashicorp/vault-secrets-operator -n vault-secrets-operator-system --create-namespace --values setup/kubernetes/vault-operator/vault-operator-values.yaml
     ```
-2. Configure application namespace connect with Vault using the Vault operator
+2. Configure application namespace to connect with Vault using the Vault operator
     1. Deploy CRD(Custom Resource Definition) of VaultConnection to connect with Vault.
         ```
         kubectl apply -f hashicorp_vault/kubernetes/prod-setup/connection.yaml -n dev
