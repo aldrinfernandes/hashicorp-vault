@@ -58,3 +58,6 @@
     ```
     vault kv put kvv2/dev username="some-username" password="some-password"
     ```
+
+## Reference
+1. (Kubernetes auth method)[https://developer.hashicorp.com/vault/docs/auth/kubernetes]
