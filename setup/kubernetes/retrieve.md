@@ -6,11 +6,11 @@
 
 ## Vault Operator
 
-The vault operator id deployed in it's own namespace other than the one in which vault is deployed and the other where the application is deployed. This approach is similar to how we have secrets in Kubernetes.
+The vault operator is deployed in it's own namespace other than the one in which vault is deployed and the different from the one where the application is deployed. This approach is similar to how we have secrets in Kubernetes.
 
 ![Architecture Image](https://github.com/aldrinfernandes/hashicorp-vault/blob/main/assets/assets.png)
 
-1. Install Operator using Helm in a new namespace vault-secrets-operator-system.
+1. Install Operator using Helm chart in a new namespace `vault-secrets-operator-system`.
     ```
     helm install vault-secrets-operator hashicorp/vault-secrets-operator -n vault-secrets-operator-system --create-namespace --values setup/kubernetes/vault-operator/vault-operator-values.yaml
     ```
@@ -19,30 +19,30 @@ The vault operator id deployed in it's own namespace other than the one in which
         ```
         kubectl apply -f hashicorp_vault/kubernetes/prod-setup/connection.yaml -n dev
         ```
-    2. Deploy the service account 'dev-user' in the namespace dev required by the CRD VaultAuth to authenticate to Vault
+    2. Deploy the service account 'dev-user' in the namespace dev required by the CRD VaultAuth to authenticate to Vault.
         ```
         kubectl apply -f setup/kubernetes/vault-operator/service_account.yaml -n dev
         ```
-    3. Deploy CRD for VaultAuth to authenticate connection with vault
+    3. Deploy CRD for VaultAuth to authenticate connection with vault.
         ```
         kubectl apply -f setup/kubernetes/vault-operator/dev-vault-auth-static.yaml -n dev
         ```
-    4. Deploy CRD for getting secrets from Vault as a Kubernetes secret in namespace
+    4. Deploy CRD for getting secrets from Vault as a Kubernetes secret in namespace.
         ```
         kubectl apply -f setup/kubernetes/vault-operator/dev-kv.yaml -n dev
         ```
-    5. Validated secret in namespace with the name as mentioned in spec.destination.name
+    5. Validated secrets in namespace with the name as mentioned in spec.destination.name.
         ```
         kubectl get secrets dev-secret-kv -n dev -o yaml
         ```
-    6. Deploy application and validated secrets 
+    6. Deploy application and validated secrets.
        Using shell command env
         ```
         kubectl exec \
       $(kubectl get pod -l app=basic-secret -o jsonpath="{.items[0].metadata.name}") \
       -c app -- env
         ```
-        Or by checking directory 
+        Or by checking directory
         ```
         kubectl exec \
       $(kubectl get pod -l app=basic-secret -o jsonpath="{.items[0].metadata.name}") \
@@ -53,16 +53,16 @@ The vault operator id deployed in it's own namespace other than the one in which
 
 Injecting secrets into Kubernetes pods via Vault Agent containers, this is the easiest way to retrieve secrets in Vault.
 
-1. Create service account in dev namespace
+1. Create service account in dev namespace.
     ```
     kubectl apply -f setup/kubernetes/vault-agent-sidecar/service_account.yaml -n dev
     ```
-2. Deploy application to kubernetes
+2. Deploy application to kubernetes.
     ```
     kubectl apply -f setup/kubernetes/vault-agent-sidecar/deployment.yaml -n dev
     ```
     **Note: Need to add the annotations vault.hashicorp.com**
-3. Exec into the pod and check location '/vault/secrets/database-config.txt' to validate the secrets
+3. Exec into the pod and check location '/vault/secrets/database-config.txt' to validate the secrets.
     ```
     kubectl exec \
       $(kubectl get pod -l app=basic-secret -o jsonpath="{.items[0].metadata.name}") \

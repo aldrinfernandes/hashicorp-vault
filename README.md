@@ -16,5 +16,5 @@
 - **Vault**:  1.12.1
 
 ## Support
-If you facing any issue when following any step please reach out to (Aldrin Fernandes)[aldrin.fernande@tigeranalytics.com]. 
+If you facing any issue when following any step please reach out to [Aldrin Fernandes](aldrin.fernande@tigeranalytics.com). 
 

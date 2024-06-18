@@ -2,16 +2,16 @@
 
 ## Configure Vault for Kubernetes
 
-1. Exec into leader(vault-0 mostly) pod
+1. Exec into leader(vault-0 mostly) pod.
     ```
     kubectl exec -it -n vault vault-0 -- sh
     ```
-2. Login into Vault
+2. Login into Vault.
     ```
     vault login
     ```
     **Note: Don't use Initial Root Token in Production**
-3. Enable Kubernetes authentication
+3. Enable Kubernetes authentication.
     ```
     vault auth enable -path non-prod kubernetes
     ```

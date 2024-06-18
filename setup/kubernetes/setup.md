@@ -41,11 +41,11 @@ server.ha.raft.enabled=true : is used to enable [raft storage](https://developer
    ```
    Output:
    ```
-    Unseal Key 1: KEY_1<br>
-    Unseal Key 2: KEY_2<br>
-    Unseal Key 3: KEY_3<br>
-    Unseal Key 4: KEY_4<br>
-    Unseal Key 5: KEY_5<br>
+    Unseal Key 1: KEY_1
+    Unseal Key 2: KEY_2
+    Unseal Key 3: KEY_3
+    Unseal Key 4: KEY_4
+    Unseal Key 5: KEY_5
 
     Initial Root Token: ROOT_TOKEN
 
